@@ -23,8 +23,8 @@ $restoran = $stmt->fetchAll();
                 <th>ID Resto</th>
                 <th>Nama Restoran</th>
                 <th>Alamat</th>
-                <th>Aksi Utama</th>
                 <th>Manajemen Resto</th>
+                <th>Aksi Utama</th>
             </tr>
         </thead>
         <tbody>

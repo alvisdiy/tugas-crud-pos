@@ -2,8 +2,7 @@
 require_once '../../../config/database.php';
 
 $id_pesanan = $_GET['id_pesanan'] ?? die("Akses Ditolak: ID Pesanan hilang!");
-
-// 1. Ambil info Struk Induk sekalian nama restoran dan pelanggan
+// Ambil info Struk Induk sekalian nama restoran dan pelanggan
 $stmt = $pdo->prepare("SELECT p.*, r.nama_resto, r.id_resto, pl.nama AS nama_pelanggan 
                        FROM pesanan p 
                        JOIN restoran r ON p.id_resto = r.id_resto 
@@ -13,13 +12,12 @@ $stmt->execute([$id_pesanan]);
 $nota = $stmt->fetch();
 
 if (!$nota) die("Nota tidak ditemukan!");
-
-// 2. Ambil HANYA menu yang dimiliki oleh restoran di nota ini
+// Ambil hanya menu yang dimiliki oleh restoran di nota ini
 $stmtMenu = $pdo->prepare("SELECT * FROM menu WHERE id_resto = ? ORDER BY nama_menu ASC");
 $stmtMenu->execute([$nota['id_resto']]);
 $daftarMenu = $stmtMenu->fetchAll();
 
-// 3. Ambil isi keranjang (detail_pesanan) saat ini
+// Ambil isi keranjang (detail_pesanan) saat ini
 $stmtDetail = $pdo->prepare("SELECT dp.*, m.nama_menu, m.harga 
                              FROM detail_pesanan dp 
                              JOIN menu m ON dp.id_menu = m.id_menu 

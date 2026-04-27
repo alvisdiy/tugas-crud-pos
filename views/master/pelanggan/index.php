@@ -4,15 +4,12 @@ require_once '../../../config/database.php';
 $search = $_GET['search'] ?? '';
 
 if ($search) {
-    // Jaring pencarian diperlebar menggunakan OR
     $sql = "SELECT * FROM pelanggan 
             WHERE nama LIKE ? 
             OR alamat LIKE ? 
             OR no_hp LIKE ? 
             ORDER BY created_at DESC";
     $stmt = $pdo->prepare($sql);
-    
-    // Karena ada 3 tanda tanya (?), kita harus mengirim parameter 3 kali
     $keyword = "%$search%";
     $stmt->execute([$keyword, $keyword, $keyword]);
 } else {
@@ -32,11 +29,11 @@ $pelanggan = $stmt->fetchAll();
     <br><br>
 
     <form method="GET" action="index.php" style="margin-bottom: 15px; padding: 10px; background: #eee; border: 1px solid #ccc; display: inline-block;">
-        <label><b>Filter Nama:</b></label>
-        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari nama pelanggan...">
+        <label><b>Pencarian:</b></label>
+        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari...">
         <button type="submit">Cari</button>
         <?php if($search): ?>
-            <a href="index.php">[X] Reset Filter</a>
+            <a href="index.php">Reset </a>
         <?php endif; ?>
     </form>
 

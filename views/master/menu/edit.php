@@ -46,6 +46,6 @@ $daftarRestoran = $stmtResto->fetchAll();
         <button type="submit">Update Menu</button>
     </form>
     <br>
-    <a href="index.php">Batal & Kembali</a>
+    <a href="../menu/index.php?id_resto=<?= $menu['id_resto'] ?>">Batal & Kembali</a>
 </body>
 </html>

@@ -1,20 +1,37 @@
 <?php
 require_once '../../../config/database.php';
 
-// Dapur: Kita lakukan JOIN ke dua tabel master sekaligus
-$sql = "SELECT 
-            p.id_pesanan, 
-            p.waktu, 
-            p.total, 
-            pl.nama AS nama_pelanggan, 
-            pl.no_hp,
-            r.nama_resto 
-        FROM pesanan p
-        JOIN pelanggan pl ON p.id_pelanggan = pl.id_pelanggan
-        JOIN restoran r ON p.id_resto = r.id_resto
-        ORDER BY p.waktu DESC";
+$search = $_GET['search'] ?? '';
 
-$stmt = $pdo->query($sql);
+if ($search) {
+    $sql = "SELECT 
+                p.id_pesanan, p.waktu, p.total, 
+                pl.nama AS nama_pelanggan, pl.no_hp, 
+                r.nama_resto 
+            FROM pesanan p
+            JOIN pelanggan pl ON p.id_pelanggan = pl.id_pelanggan
+            JOIN restoran r ON p.id_resto = r.id_resto
+            WHERE p.id_pesanan LIKE ? 
+               OR pl.nama LIKE ? 
+               OR pl.no_hp LIKE ? 
+               OR r.nama_resto LIKE ?
+            ORDER BY p.waktu DESC";
+    $stmt = $pdo->prepare($sql);
+
+    $keyword = "%$search%";
+    $stmt->execute([$keyword, $keyword, $keyword, $keyword]);
+} else {
+    $sql = "SELECT 
+                p.id_pesanan, p.waktu, p.total, 
+                pl.nama AS nama_pelanggan, pl.no_hp, 
+                r.nama_resto 
+            FROM pesanan p
+            JOIN pelanggan pl ON p.id_pelanggan = pl.id_pelanggan
+            JOIN restoran r ON p.id_resto = r.id_resto
+            ORDER BY p.waktu DESC";
+    $stmt = $pdo->query($sql);
+}
+
 $pesanan = $stmt->fetchAll();
 ?>
 
@@ -29,6 +46,15 @@ $pesanan = $stmt->fetchAll();
     <h2>Daftar Transaksi Pesanan</h2>
     <a href="create.php">Buat Pesanan Baru</a>
     <br><br>
+
+    <form method="GET" action="index.php" style="margin-bottom: 15px; padding: 10px; background: #eee; border: 1px solid #ccc; display: inline-block;">
+        <label><b>Cari Transaksi:</b></label>
+        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Cari...">
+        <button type="submit">Cari</button>
+        <?php if ($search): ?>
+            <a href="index.php">[X] Reset Filter</a>
+        <?php endif; ?>
+    </form>
 
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>

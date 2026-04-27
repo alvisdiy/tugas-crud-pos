@@ -1,7 +1,6 @@
 <?php
 require_once '../../../config/database.php';
 
-// Ambil ID Restoran dari URL
 $id_resto = $_GET['id_resto'] ?? die("Error: Harus pilih restoran dulu!");
 
 // Ambil info nama restoran untuk judul halaman

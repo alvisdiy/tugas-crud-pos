@@ -2,14 +2,14 @@
 require_once '../../../config/database.php';
 $id = $_GET['id'];
 
-// 1. Ambil data pesanan lama
+// Ambil data pesanan lama
 $stmt = $pdo->prepare("SELECT * FROM pesanan WHERE id_pesanan = ?");
 $stmt->execute([$id]);
 $pesanan = $stmt->fetch();
 
 if (!$pesanan) die("Data Transaksi tidak ditemukan!");
 
-// 2. Tarik data master untuk dropdown
+// Tarik data master untuk dropdown
 $daftarPelanggan = $pdo->query("SELECT id_pelanggan, nama FROM pelanggan")->fetchAll();
 $daftarRestoran = $pdo->query("SELECT id_resto, nama_resto FROM restoran")->fetchAll();
 ?>

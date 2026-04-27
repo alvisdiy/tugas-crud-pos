@@ -36,8 +36,14 @@ $recent_trx = $pdo->query($sql_recent)->fetchAll();
 <body>
     <h1>Lobi Utama - Dashboard Sistem</h1>
     <hr>
-    
-    <div>
+    <h3>Pilih Modul Sistem:</h3>
+    <ul>
+        <li><a href="views/master/pelanggan/index.php" style="font-size: 18px;"><b>Manajemen Pelanggan</b></a></li><br>
+        <li><a href="views/master/restoran/index.php" style="font-size: 18px;"><b>Manajemen Restoran & Menu</b></a></li><br>
+        <li><a href="views/transaksi/pesanan/index.php" style="font-size: 18px;"><b>Modul Kasir (Pesanan)</b></a></li>
+    </ul>
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
         <div class="card">
             <h3>Total Pelanggan</h3><h2><?= $total_pelanggan ?></h2>
         </div>
@@ -80,11 +86,6 @@ $recent_trx = $pdo->query($sql_recent)->fetchAll();
 
     <hr>
 
-    <h3>Pilih Modul Sistem:</h3>
-    <ul>
-        <li><a href="views/master/pelanggan/index.php" style="font-size: 18px;"><b>Manajemen Pelanggan</b></a></li><br>
-        <li><a href="views/master/restoran/index.php" style="font-size: 18px;"><b>Manajemen Restoran & Menu</b></a></li><br>
-        <li><a href="views/transaksi/pesanan/index.php" style="font-size: 18px;"><b>Modul Kasir (Pesanan)</b></a></li>
-    </ul>
+    
 </body>
 </html>
